@@ -9,6 +9,11 @@ class CartItem extends React.Component {
             Qty: 1,
             img: ''
         }
+        //Can bind multiple event handlers can be bind over here 
+        // this.increaseQuantity = this.increaseQuantity.bind(this);
+    }
+    increaseQuantity = () => {
+        console.log('this.state', this.state);
     }
   render () {
     const {title, price, Qty} = this.state;
@@ -23,9 +28,22 @@ class CartItem extends React.Component {
           <div style={ { color: '#777' } }>{Qty}</div>
           <div className="cart-item-actions">
             {/* Buttons */}
-            <img alt="increase" className="action-icons" src="https://image.flaticon.com/icons/png/512/3114/3114793.png" />
-            <img alt="decrease" className="action-icons" src="https://www.flaticon.com/premium-icon/icons/svg/3114/3114894.svg" />
-            <img alt="delete" className="action-icons" src="https://image.flaticon.com/icons/svg/1214/1214428.svg" />
+            <img 
+                alt="increase" 
+                className="action-icons" 
+                src="https://image.flaticon.com/icons/png/512/3114/3114793.png"
+                onClick={this.increaseQuantity} 
+            />
+            <img 
+                alt="decrease" 
+                className="action-icons" 
+                src="https://www.flaticon.com/premium-icon/icons/svg/3114/3114894.svg" 
+            />
+            <img 
+                alt="delete" 
+                className="action-icons" 
+                src="https://image.flaticon.com/icons/svg/1214/1214428.svg" 
+            />
 
           </div>
         </div>
