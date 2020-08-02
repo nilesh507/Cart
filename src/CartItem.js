@@ -11,13 +11,33 @@ class CartItem extends React.Component {
     }
     //Can bind multiple event handlers can be bind over here 
     // this.increaseQuantity = this.increaseQuantity.bind(this);
+    // this.testing();
   }
+
+  testing () {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout( () => {
+        resolve('done');
+      }, 5000);
+    });
+
+    promise.then( () => {
+      //setState asrs like a synchronous call 
+      this.setState( { Qty: 100} );
+
+      console.log('state', this.state);
+    });
+
+  }
+
   increaseQuantity = () => {
     // this.state.Qty += 1;
-    console.log('this.state', this.state);
+    // console.log('this.state', this.state);
     // setState form 1 
     // this.setState({
     //   Qty: this.state.Qty + 1 
+    // }, () => {
+    // console.log('this.state', this.state);
     // });
 
     //setState form 2 - if previous state is required 
@@ -27,8 +47,11 @@ class CartItem extends React.Component {
       }
     });
   }
-  decreaseQuantitiy= () => {
-    console.log('this.state', this.state);
+  decreaseQuantitiy = () => {
+    const { Qty } = this.state;
+    if (Qty === 0) {
+      return;
+    }
     this.setState((prevState) => {
       return {
         Qty: prevState.Qty - 1
@@ -57,7 +80,7 @@ class CartItem extends React.Component {
             <img
               alt="decrease"
               className="action-icons"
-              src="https://www.flaticon.com/premium-icon/icons/svg/3114/3114894.svg" 
+              src="https://www.flaticon.com/premium-icon/icons/svg/3114/3114894.svg"
               onClick={this.decreaseQuantitiy}
             />
             <img
