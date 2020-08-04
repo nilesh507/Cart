@@ -1,18 +1,6 @@
 import React from 'react';
 
 class CartItem extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      price: 999,
-      title: 'Mobile Phone',
-      Qty: 1,
-      img: ''
-    }
-    //Can bind multiple event handlers can be bind over here 
-    // this.increaseQuantity = this.increaseQuantity.bind(this);
-    // this.testing();
-  }
 
   testing () {
     const promise = new Promise((resolve, reject) => {
@@ -23,7 +11,7 @@ class CartItem extends React.Component {
 
     promise.then( () => {
       //setState asrs like a synchronous call 
-      this.setState( { Qty: 100} );
+      this.setState( {   qty: 100} );
 
       console.log('state', this.state);
     });
@@ -43,23 +31,24 @@ class CartItem extends React.Component {
     //setState form 2 - if previous state is required 
     this.setState((prevState) => {
       return {
-        Qty: prevState.Qty + 1
+        qty: prevState.qty + 1
       }
     });
   }
   decreaseQuantitiy = () => {
-    const { Qty } = this.state;
-    if (Qty === 0) {
+    const { qty } = this.state;
+    if (qty === 0) {
       return;
     }
     this.setState((prevState) => {
       return {
-        Qty: prevState.Qty - 1
+        qty: prevState.qty - 1
       }
     });
   }
   render() {
-    const { title, price, Qty } = this.state;
+    // console.log("this.props-->",this.props);
+    const { title, price, qty } = this.props.product;
     return (
       <div className="cart-item">
         <div className="left-block">
@@ -68,7 +57,7 @@ class CartItem extends React.Component {
         <div className="right-block">
           <div style={{ fontSize: 25 }}>{title}</div>
           <div style={{ color: '#777' }}>{price}</div>
-          <div style={{ color: '#777' }}>{Qty}</div>
+          <div style={{ color: '#777' }}>{qty}</div>
           <div className="cart-item-actions">
             {/* Buttons */}
             <img
