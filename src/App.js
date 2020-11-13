@@ -8,24 +8,24 @@ class App extends React.Component {
     this.state = {
       products: [
         {
-          price: 99,
+          price: 5000,
           title: 'Watch',
           qty: 1,
-          img: '',
+          img: 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2204&q=80',
           id: 1
         },
         {
-          price: 999,
+          price: 20000,
           title: 'Mobile Phone',
           qty: 10,
-          img: '',
+          img: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80',
           id: 2
         },
         {
-          price: 999,
+          price: 80000,
           title: 'Laptop',
           qty: 4,
-          img: '',
+          img: 'https://images.unsplash.com/photo-1548611635-b6e7827d7d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80',
           id: 3
         }
       ]
@@ -79,7 +79,15 @@ class App extends React.Component {
 
     return count;
   }
+  getCartTotal = () => {
+    const { products } = this.state;
 
+    let total = 0;
+    products.forEach((item) => {
+      total = total + item.qty * item.price;
+    });
+    return total;
+  }
   render () {
     const { products } = this.state;
     return (
@@ -91,6 +99,7 @@ class App extends React.Component {
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteQuantity={this.handelDeleteQuantity}
         />
+        <div style={{padding:10, fontSize:30}}>TOTAL: {this.getCartTotal()}</div>
       </div>
     );
   }
