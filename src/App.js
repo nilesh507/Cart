@@ -1,38 +1,50 @@
 import React from 'react';
 import Navbar from './Navbar'
 import Cart from './Cart'
+import firebase from 'firebase'
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      products: [
-        {
-          price: 5000,
-          title: 'Watch',
-          qty: 1,
-          img: 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2204&q=80',
-          id: 1
-        },
-        {
-          price: 20000,
-          title: 'Mobile Phone',
-          qty: 10,
-          img: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80',
-          id: 2
-        },
-        {
-          price: 80000,
-          title: 'Laptop',
-          qty: 4,
-          img: 'https://images.unsplash.com/photo-1548611635-b6e7827d7d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80',
-          id: 3
-        }
-      ]
-    }
+      products: [],
+      loading: "true"
+    };
+    
     //Can bind multiple event handlers can be bind over here 
     // this.increaseQuantity = this.increaseQuantity.bind(this);
     // this.testing();
+  }
+  componentDidMount () {
+    firebase
+      .firestore()
+      .collection('products')
+      .get()
+      .then((snapshot) => {
+        console.log(snapshot);
+        
+        snapshot.docs.map((doc) => {
+          console.log(doc.data());
+          return "";
+        })
+
+        const products = snapshot.docs.map((doc) => {
+          const data = doc.data();
+
+          data['id'] = doc.id;
+          return data;
+        });
+  
+        this.setState({
+          // products: products
+          products,
+          loading: false
+        });
+        
+        return "";
+      })
+
+      
   }
   handleIncreaseQuantity = (product) => {
     console.log('Hey plz increase the qty of this product', product);
@@ -89,7 +101,7 @@ class App extends React.Component {
     return total;
   }
   render () {
-    const { products } = this.state;
+    const { products, loading } = this.state;
     return (
       <div className="App">
         <Navbar count={this.getCartCount()} />
@@ -99,6 +111,8 @@ class App extends React.Component {
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteQuantity={this.handelDeleteQuantity}
         />
+        {/*  Conditional rendering  */}
+        {loading && <h1>Loading Products...</h1>}    
         <div style={{padding:10, fontSize:30}}>TOTAL: {this.getCartTotal()}</div>
       </div>
     );
