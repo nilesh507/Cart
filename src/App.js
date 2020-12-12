@@ -10,6 +10,7 @@ class App extends React.Component {
       products: [],
       loading: "true"
     };
+    this.db = firebase.firestore();
     
     //Can bind multiple event handlers can be bind over here 
     // this.increaseQuantity = this.increaseQuantity.bind(this);
@@ -44,8 +45,7 @@ class App extends React.Component {
     //     return "";
     //   })
 
-    firebase
-      .firestore()
+    this.db
       .collection('products')
       .onSnapshot((snapshot) => {
         console.log(snapshot);
@@ -127,11 +127,30 @@ class App extends React.Component {
     });
     return total;
   }
+
+  addProduct = () => {
+    this.db
+      .collection('products')
+      .add({
+        img: "",
+        price: 100,
+        qty:  3,
+        title: "Washing Machine"
+      })
+      .then((docRef)=> {
+        console.log("Product has been added",docRef);
+      }).catch((error)=> {
+        console.log("Error : ", error);
+      })
+      
+  }
+
   render () {
     const { products, loading } = this.state;
     return (
       <div className="App">
         <Navbar count={this.getCartCount()} />
+        <button onClick={this.addProduct} style={{ padding:20, fontSize:20 }}>Add a Product</button>
         <Cart
           products = {products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
