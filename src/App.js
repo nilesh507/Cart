@@ -16,11 +16,38 @@ class App extends React.Component {
     // this.testing();
   }
   componentDidMount () {
+    // firebase
+    //   .firestore()
+    //   .collection('products')
+    //   .get()
+    //   .then((snapshot) => {
+    //     console.log(snapshot);
+        
+    //     snapshot.docs.map((doc) => {
+    //       console.log(doc.data());
+    //       return "";
+    //     })
+
+    //     const products = snapshot.docs.map((doc) => {
+    //       const data = doc.data();
+
+    //       data['id'] = doc.id;
+    //       return data;
+    //     });
+  
+    //     this.setState({
+    //       // products: products
+    //       products,
+    //       loading: false
+    //     });
+        
+    //     return "";
+    //   })
+
     firebase
       .firestore()
       .collection('products')
-      .get()
-      .then((snapshot) => {
+      .onSnapshot((snapshot) => {
         console.log(snapshot);
         
         snapshot.docs.map((doc) => {
@@ -42,7 +69,7 @@ class App extends React.Component {
         });
         
         return "";
-      })
+      });
 
       
   }
