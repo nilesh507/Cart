@@ -47,6 +47,9 @@ class App extends React.Component {
 
     this.db
       .collection('products')
+      // .where('price', "==", 999)
+      // .where('title', "==", "Watch")
+      .orderBy('price', "asc")
       .onSnapshot((snapshot) => {
         console.log(snapshot);
         
@@ -109,18 +112,41 @@ class App extends React.Component {
     if(products[index].qty  === 0) {
       return ;
     }
-    products[index].qty -= 1;
+    // products[index].qty -= 1;
 
-    this.setState(
-      products
-    );
+    // this.setState(
+    //   products
+    // );
+
+    //updating product quantity in the firebase 
+    const docRef = this.db.collection("products").doc(products[index].id);
+    docRef
+      .update({
+        qty: products[index].qty - 1
+      })
+      .then(() => {
+        console.log("Document updated successfully");
+      })
+      .catch((error)=> {
+        console.log("Error : ", error);
+      })
   }
   handelDeleteQuantity = (id) => {
     const {products} = this.state;
-    const items = products.filter((item) => item.id !== id  );  // filter out the element with that id and return the filtered array 
-    this.setState({
-      products: items
-    });
+    // const items = products.filter((item) => item.id !== id  );  // filter out the element with that id and return the filtered array 
+    // this.setState({
+    //   products: items
+    // });
+
+    const docRef = this.db.collection("products").doc(id);
+    docRef
+      .delete()
+      .then(() => {
+        console.log("Document Deleted successfully");
+      })
+      .catch((error)=> {
+        console.log("Error : ", error);
+      })
   }
 
   getCartCount = () => {
