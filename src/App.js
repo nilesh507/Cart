@@ -66,8 +66,8 @@ class App extends React.Component {
         });
   
         this.setState({
-          // products: products
-          products,
+          products: products,
+          // products,
           loading: false
         });
         
@@ -169,14 +169,48 @@ class App extends React.Component {
   }
 
   addProduct = () => {
-    this.db
-      .collection('products')
-      .add({
-        img: "",
+    let items = [
+      {
+        img: "https://images.unsplash.com/photo-1626806819282-2c1dc01a5e0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FzaGluZyUyMG1hY2hpbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
         price: 100,
         qty:  3,
         title: "Washing Machine"
-      })
+      },
+      {
+        img: "https://images.unsplash.com/photo-1584191349568-e8162f3d55bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym13JTIweDZ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        price: 60000000,
+        qty: 1,
+        title: "Car"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1623114112815-74a4b9fe505d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+        price: 10000,
+        qty: 1,
+        title: "Oven"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGxhcHRvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+        price: 200000,
+        qty: 1,
+        title: "Laptop"
+      },
+      {
+        img: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS1rDH_nWadT1GXFPomdutqV1PUMA8uXIWS2Js5_fq4pJ1lwG16",
+        price: Infinity,
+        qty: 1/2,
+        title: "Mark Zuckerberg"
+      }
+    ]
+    var item = items[Math.floor(Math.random()*items.length)];
+    this.db
+      .collection('products')
+      // .add({
+      //   img: "https://images.unsplash.com/photo-1626806819282-2c1dc01a5e0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FzaGluZyUyMG1hY2hpbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+      //   price: 100,
+      //   qty:  3,
+      //   title: "Washing Machine"
+      // })
+      .add( item  )
       .then((docRef)=> {
         console.log("Product has been added",docRef);
       }).catch((error)=> {
@@ -190,7 +224,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar count={this.getCartCount()} />
-        {/* <button onClick={this.addProduct} style={{ padding:20, fontSize:20 }}>Add a Product</button> */}
+        <div style={{padding:10, fontSize:30}}>TOTAL: {this.getCartTotal()}</div>
+        <button onClick={this.addProduct} style={{ padding:20, fontSize:20 }}>Add a Product</button>
         <Cart
           products = {products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
@@ -199,7 +234,6 @@ class App extends React.Component {
         />
         {/*  Conditional rendering  */}
         {loading && <h1>Loading Products...</h1>}    
-        <div style={{padding:10, fontSize:30}}>TOTAL: {this.getCartTotal()}</div>
       </div>
     );
   }
