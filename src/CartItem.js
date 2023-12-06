@@ -8,11 +8,11 @@ const CartItem = (props) => {
   return (
     <div className="cart-item">
       <div className="left-block">
-        <img src={product.img} style={styles.image} />
+        <img src={product.img} style={styles.image} alt='ProductImage'/>
       </div>
       <div className="right-block">
         <div style={ { fontSize: 25 } }>{title} </div>
-        <div style={ { color: '#777' } }>Rs {price} </div>
+        <div style={ { color: '#777' } }> Price: ${price} </div>
         <div style={ { color: '#777' } }>Qty: {qty} </div>
         <div className="cart-item-actions">
           {/* Buttons */}
